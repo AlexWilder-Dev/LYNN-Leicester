@@ -1,0 +1,16 @@
+// LYNN's wordmark, traced from their drinks menu and Instagram avatar.
+type Props = { className?: string; title?: string }
+
+export function LynnMark({ className, title = 'LYNN' }: Props) {
+  return (
+    <svg className={className} viewBox="0 0 203 165" role="img" aria-label={title} fill="currentColor">
+      <path d="M0 0H20V148H65V165H0Z" />
+      <path d="M20 0H41.5L54.5 50L68 0H88.5L65.5 96V165H45V96Z" />
+      <path d="M86 0H106V165H86Z" />
+      <path d="M91.6 0H111.5L141.2 165H121.3Z" />
+      <path d="M126 0H163V165H126Z" />
+      <path d="M148.6 0H168.5L198.2 165H178.3Z" />
+      <path d="M183 0H203V165H183Z" />
+    </svg>
+  )
+}
