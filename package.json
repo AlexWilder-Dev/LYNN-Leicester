@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && rm -rf assets && vite build",
     "preview": "vite preview",
     "photos": "node scripts/prep-photos.mjs",
     "og": "node scripts/make-og.mjs",
