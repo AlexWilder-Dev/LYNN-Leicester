@@ -211,25 +211,37 @@ main:focus {
   z-index: 30;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
-  transition: background-color 0.9s ease;
+  transition: background-color 0.9s ease, border-color 0.3s ease;
+}
+
+.header--sign {
+  border-bottom-color: transparent;
 }
 
 .header__in {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 58px;
+  height: 62px;
 }
 
 .header__mark {
   display: block;
   color: var(--fg);
   line-height: 0;
+  padding: 8px 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .header__mark svg {
-  height: 26px;
+  height: 30px;
   width: auto;
+}
+
+.header--sign .header__mark {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
 }
 
 .header__nav {
@@ -270,20 +282,72 @@ main:focus {
   }
 }
 
+/* Sign band — the fascia over LYNN's window */
+.fascia {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px var(--gutter) 34px;
+  text-align: center;
+}
+
+.fascia__mark {
+  color: var(--fg);
+  line-height: 0;
+}
+
+.fascia__mark svg {
+  height: 78px;
+  width: auto;
+}
+
+.fascia__line {
+  margin: 18px 0 0;
+  font-family: var(--vinyl);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+@media (min-width: 900px) {
+  .fascia {
+    padding: 44px var(--gutter) 46px;
+  }
+  .fascia__mark svg {
+    height: 112px;
+  }
+  .fascia__line {
+    font-size: 13px;
+  }
+}
+
 .pendants {
   position: absolute;
   top: 0;
-  left: 50%;
+  right: max(var(--gutter), calc(50% - 300px));
   width: 70px;
   height: 58px;
-  margin-left: -35px;
   pointer-events: none;
   overflow: visible;
 }
 
+@media (max-width: 420px) {
+  .pendants {
+    right: 10px;
+    width: 56px;
+    height: 46px;
+  }
+}
+
 @media (min-width: 900px) {
   .pendants {
-    left: 40%;
+    right: auto;
+    left: calc(50% + 118px);
+    width: 84px;
+    height: 70px;
   }
 }
 
@@ -305,7 +369,7 @@ main:focus {
 .window__glass {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   background: #000;
   container-type: inline-size;
 }
@@ -313,18 +377,29 @@ main:focus {
 .hero {
   display: grid;
   gap: 0;
+  padding-bottom: 44px;
+}
+
+.hero__side {
+  padding-top: 34px;
+}
+
+.hero__kicker {
+  margin-bottom: 4px;
 }
 
 @media (min-width: 900px) {
+  .window__glass {
+    aspect-ratio: 4 / 5;
+  }
   .hero {
     grid-template-columns: minmax(0, 480px) 1fr;
-    gap: 56px;
-    align-items: end;
-    padding-top: 28px;
-    padding-bottom: 48px;
+    gap: 64px;
+    align-items: start;
+    padding-bottom: 64px;
   }
-  .hero .intro {
-    padding-bottom: 0;
+  .hero__side {
+    padding-top: 8px;
   }
 }
 
@@ -411,26 +486,65 @@ main:focus {
 }
 
 .sill {
-  padding: 14px 6px 16px;
+  padding: 16px 8px 14px;
+}
+
+.sill__status {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sill__status .status__dot {
+  margin-top: 8px;
+  background: rgba(255, 246, 230, 0.4);
+}
+
+.sill__status .status__dot--open {
+  background: #a9b97c;
+  box-shadow: 0 0 0 4px rgba(169, 185, 124, 0.22);
+}
+
+.sill__text {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.18;
+}
+
+.sill__sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(255, 246, 230, 0.62);
+}
+
+.sill__sub button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--amber);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .sill__days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
-  margin-bottom: 14px;
+  margin-top: 6px;
 }
 
 .sill__day {
-  border: 1px solid rgba(255, 246, 230, 0.22);
+  border: 1px solid rgba(255, 246, 230, 0.18);
   background: transparent;
-  color: var(--cream);
+  color: rgba(255, 246, 230, 0.85);
   font-family: var(--display);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 7px 0;
+  padding: 5px 0;
   cursor: pointer;
   border-radius: 2px;
 }
@@ -449,35 +563,17 @@ main:focus {
 .sill__row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  margin-top: 12px;
 }
 
 .sill__time {
   font-family: var(--display);
   font-weight: 700;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
-  min-width: 3.1em;
+  min-width: 2.9em;
   font-variant-numeric: tabular-nums;
-}
-
-.sill__now {
-  border: 1px solid rgba(255, 246, 230, 0.4);
-  background: transparent;
-  color: var(--cream);
-  font-family: var(--display);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-size: 13px;
-  padding: 8px 10px;
-  border-radius: 2px;
-  cursor: pointer;
-}
-
-.sill__now:disabled {
-  opacity: 0.35;
-  cursor: default;
 }
 
 .clockbar {
@@ -636,26 +732,64 @@ main:focus {
   }
 }
 
-.intro {
-  padding: 40px 0 48px;
-}
-
-.intro p {
+/* What's on — the menu in the window */
+.whatson ul {
+  list-style: none;
   margin: 0;
+  padding: 0;
 }
 
-.intro__big {
+.whatson__row {
+  display: grid;
+  gap: 2px;
+  padding: 14px 0 13px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.whatson li:first-child .whatson__row {
+  border-top: 1.5px solid var(--fg);
+}
+
+.whatson__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(30px, 8.4vw, 56px);
-  line-height: 1.04;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  max-width: 18em;
+  color: var(--fg-2);
+  transition: color 0.4s ease;
 }
 
-.intro__big em {
-  font-style: normal;
-  color: var(--accent);
+.whatson__row.is-on .whatson__title,
+.whatson__row:hover .whatson__title {
+  color: var(--fg);
+}
+
+.whatson__on {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 3px 7px 2px;
+  border-radius: 2px;
+  background: var(--glaze);
+  color: var(--cream);
+}
+
+.whatson__detail {
+  font-size: 15px;
+  color: var(--fg-2);
+}
+
+@media (min-width: 900px) {
+  .whatson__title {
+    font-size: 34px;
+  }
 }
 
 /* Quotes */
@@ -1149,7 +1283,9 @@ main:focus {
 }
 
 .footer__mark {
-  width: 132px;
+  display: block;
+  width: 168px;
+  margin: 8px 0 44px;
   color: var(--cream);
 }
 

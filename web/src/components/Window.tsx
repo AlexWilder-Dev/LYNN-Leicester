@@ -41,6 +41,7 @@ export function Window() {
   const lit = litWords(moment)
   const open = isOpen(moment)
   const d = week[moment.day]
+  const status = statusLine(moment)
 
   return (
     <section className="window" aria-label="The window at LYNN">
@@ -99,22 +100,26 @@ export function Window() {
       </div>
 
       <div className="sill">
-        <div className="sill__days" role="group" aria-label="Day">
-          {dayOrder.map((i) => (
-            <button
-              key={i}
-              type="button"
-              className={`sill__day${week[i].open === null ? ' sill__day--shut' : ''}`}
-              aria-pressed={moment.day === i}
-              aria-label={`${week[i].name}${week[i].open === null ? ', closed' : ''}`}
-              onClick={() => setMoment({ day: i, minutes: moment.minutes })}
-            >
-              {week[i].short.slice(0, 3)}
-            </button>
-          ))}
+        <div className="sill__status" role="status">
+          <span className={`status__dot${status.open ? ' status__dot--open' : ''}`} aria-hidden="true" />
+          <div>
+            <p className="sill__text">{status.text}</p>
+            <p className="sill__sub">
+              {live ? (
+                <>Right now in Leicester. Drag the clock or tap a word.</>
+              ) : (
+                <>
+                  Showing {d.name} at {clock(moment.minutes)}.{' '}
+                  <button type="button" onClick={backToNow}>
+                    Back to now
+                  </button>
+                </>
+              )}
+            </p>
+          </div>
         </div>
         <div className="sill__row">
-          <output className="sill__time" aria-live="polite">{clock(moment.minutes)}</output>
+          <output className="sill__time" aria-hidden="true">{clock(moment.minutes)}</output>
           <div className="clockbar">
             <input
               type="range"
@@ -124,7 +129,7 @@ export function Window() {
               value={Math.min(Math.max(moment.minutes, START), END)}
               onChange={(e) => setMoment({ day: moment.day, minutes: Number(e.target.value) })}
               aria-label="Time of day"
-              aria-valuetext={`${week[moment.day].name} ${clock(moment.minutes)}. ${statusLine(moment).text}`}
+              aria-valuetext={`${d.name} ${clock(moment.minutes)}. ${status.text}`}
             />
             <div className="clockbar__track">
               {d.open !== null && d.close !== null && (
@@ -145,36 +150,22 @@ export function Window() {
               transition={{ type: 'spring', stiffness: 420, damping: 38 }}
             />
           </div>
-          <button type="button" className="sill__now" onClick={backToNow} disabled={live}>
-            Now
-          </button>
+        </div>
+        <div className="sill__days" role="group" aria-label="Day">
+          {dayOrder.map((i) => (
+            <button
+              key={i}
+              type="button"
+              className={`sill__day${week[i].open === null ? ' sill__day--shut' : ''}`}
+              aria-pressed={moment.day === i}
+              aria-label={`${week[i].name}${week[i].open === null ? ', closed' : ''}`}
+              onClick={() => setMoment({ day: i, minutes: moment.minutes })}
+            >
+              {week[i].short.slice(0, 3)}
+            </button>
+          ))}
         </div>
       </div>
     </section>
-  )
-}
-
-export function WindowStatus() {
-  const { moment, live, backToNow } = useLight()
-  const s = statusLine(moment)
-  return (
-    <div className="status" role="status">
-      <span className={`status__dot${s.open ? ' status__dot--open' : ''}`} aria-hidden="true" />
-      <div>
-        <p className="status__text">{s.text}</p>
-        <p className="status__sub">
-          {live ? (
-            <>Right now in Leicester. Drag the clock or tap a word on the glass to see the rest of the week.</>
-          ) : (
-            <>
-              Showing {week[moment.day].name} at {clock(moment.minutes)}.{' '}
-              <button type="button" onClick={backToNow}>
-                Back to now
-              </button>
-            </>
-          )}
-        </p>
-      </div>
-    </div>
   )
 }

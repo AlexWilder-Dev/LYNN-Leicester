@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { info, photos, quotes, voice, week } from '../data/lynn'
-import { Window, WindowStatus } from '../components/Window'
+import { Window } from '../components/Window'
+import { Fascia } from '../components/Fascia'
+import { WhatsOn } from '../components/WhatsOn'
 import { Counter } from '../components/Counter'
 import { ABoard, Figure, Quote, Reveal } from '../components/Bits'
 import { hoursText, leicesterNow } from '../lib/time'
@@ -19,17 +21,13 @@ export function Home() {
 
   return (
     <>
+      <Fascia />
       <div className="wrap hero">
         <Window />
         <div className="hero__side">
-          <WindowStatus />
-          <section className="intro">
-            <p className="intro__big">
-              Coffee and brunch every day but Tuesday. <em>Dinner and cocktails</em> on Friday and Saturday nights. A
-              proper roast on Sundays.
-            </p>
-            <Quote text={quotes.visitLeicester.text} who={quotes.visitLeicester.who} />
-          </section>
+          <p className="kicker hero__kicker">What’s on</p>
+          <WhatsOn />
+          <Quote text={quotes.visitLeicester.text} who={quotes.visitLeicester.who} />
         </div>
       </div>
 
